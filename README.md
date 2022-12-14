@@ -26,6 +26,27 @@ You are an Executive Producer within the company and are creating a system to si
 		At least two tests of Role based access control (RBAC) for each role
 
 
+### How to setup authentication
+This project comes with three auth0 JWT tokens for Producer, Director and Assistant. These are valid for 30 days, and will expire after that.
+
+###instructions usage from Heroku
+1. Go to website https://castingdb-wyne.herokuapp.com/
+2. Login into the role that you want to use
+3. You can get movies and actors stored in database by just pressing the correct login button
+4. For post you can  add information that you need.
+		MOVIES
+			Add Movie name
+			Add release date
+		actors
+				Add name, age, Gender, and movie ID that actor has worked in
+				Please note that movie ID must exist in the database.
+	5. To delete a movie or an actor, just enter the movie or actor ID and press corresponding delete button
+	6. To patch a movie or an actor, add the movie or actor ID and also add the details that you want to change
+	Please note that deleting a movie will also delete the related actor from the database.
+
+	The Result window shows raw XML data that shows what information is being returned.
+
+
 ### Installing and Running
 
 1. **Python 3.7** - Follow instructions to install the latest version of python for your platform in the [python docs](https://docs.python.org/3/using/unix.html#getting-and-installing-the-latest-version-of-python)
