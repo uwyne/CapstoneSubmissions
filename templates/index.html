@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+    <script>
+      var Token
+      function loginDirector() {
+         var change = document.getElementById("Director");
+          change.innerHTML = "Director logged in";
+          var change = document.getElementById("Producer");
+          change.innerHTML = " log in Producer";
+          var change = document.getElementById("Assistant");
+          change.innerHTML = "log in Assistant";
+          fetch('/loginDirector',
+                {
+                  method: "GET",
+                  headers:
+                  {
+                    'Content-Type': 'application/json'
+                  }
+                }
+          )
+          .then(function(response)
+          {
+            try
+            {
+              console.log(response);
+              return response.json();
+            }
+            catch(err)
+            {
+              console.log(err);
+            }
+
+          })
+          .then( function(jsonResponse){
+                console.log(jsonResponse);
+                Token="Bearer "+jsonResponse["Token"];
+                console.log(Token);
+              })
+      }
+      function loginProducer()
+      {
+          var change = document.getElementById("Producer");
+          change.innerHTML = "Producer logged in";
+          var change = document.getElementById("Director");
+          change.innerHTML = " log in Director";
+          var change = document.getElementById("Assistant");
+          change.innerHTML = "log in Assistant";
+          fetch('/loginProducer',
+                {
+                  method: "GET",
+                  headers:
+                  {
+                    'Content-Type': 'application/json'
+                  }
+                }
+          )
+          .then(response=>response.json())
+          .then( jsonResponse=>{
+                console.log(jsonResponse);
+                Token="Bearer "+jsonResponse["Token"];
+                console.log(Token);
+              })
+      }
+      function loginAssistant()
+      {
+          var change = document.getElementById("Assistant");
+          change.innerHTML = "Assistant logged in";
+          var change = document.getElementById("Director");
+          change.innerHTML = " log in Director";
+          var change = document.getElementById("Producer");
+          change.innerHTML = " log in Producer";
+          fetch('/loginAssistant',
+                {
+                  method: "GET",
+                  headers:
+                  {
+                    'Content-Type': 'application/json'
+                  }
+                }
+          )
+          .then(response=>response.json())
+          .then( jsonResponse=>{
+                console.log(jsonResponse);
+                Token="Bearer "+jsonResponse["Token"];
+                console.log(Token);
+              })
+      }
+
+      function get_movies()
+      {
+        fetch('/movies',
+              {
+                method: "GET",
+                headers:
+                {
+                  'Authorization': Token,
+                  'Content-Type': 'application/json'
+                }
+              }
+        )
+        .then(response=>response.json())
+        .then( jsonResponse=>{
+              console.log(jsonResponse);
+              var myJSON = JSON.stringify(jsonResponse);
+
+              document.getElementById('display').innerHTML= myJSON;
+
+            })
+      }
+      function post_movie()
+      {
+        var title = document.getElementById('MovieName').value;
+        var date =  document.getElementById('ReleaseDate').value;
+        fetch('/movies',
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  'title': title,
+                  'release_date': date
+                }),
+                headers:
+                {
+                  'Authorization': Token,
+                  'Content-Type': 'application/json'
+                }
+              }
+        )
+        .then(response=>response.json())
+        .then( jsonResponse=>{
+              console.log(jsonResponse);
+              var myJSON = JSON.stringify(jsonResponse);
+              document.getElementById('display').innerHTML= myJSON;
+            })
+      }
+      function delete_movie()
+      {
+        var MACID=0;
+        MACID=document.getElementById('MACID').value;
+        if (isNaN(MACID) || MACID<0)
+        {
+          MACID = 0;
+        }
+        fetch('/movies/'+MACID,
+              {
+                method: "DELETE",
+                headers:
+                {
+                  'Authorization': Token,
+                  'Content-Type': 'application/json'
+                }
+              }
+        )
+        .then(response=>response.json())
+        .then( jsonResponse=>{
+              console.log(jsonResponse);
+              var myJSON = JSON.stringify(jsonResponse);
+              document.getElementById('display').innerHTML= myJSON;
+            })
+      }
+      function patch_movie()
+      {
+        var title = document.getElementById('MovieName').value;
+        var date =  document.getElementById('ReleaseDate').value;
+        var MACID=0;
+        MACID=document.getElementById('MACID').value;
+        if (isNaN(MACID) || MACID<0)
+        {
+          MACID = 0;
+        }
+        fetch('/movies/'+MACID,
+              {
+                method: "PATCH",
+                body: JSON.stringify({
+                  'title': title,
+                  'release_date': date
+                }),
+                headers:
+                {
+                  'Authorization': Token,
+                  'Content-Type': 'application/json'
+                }
+              }
+        )
+        .then(response=>response.json())
+        .then( jsonResponse=>{
+              console.log(jsonResponse);
+              var myJSON = JSON.stringify(jsonResponse);
+
+              document.getElementById('display').innerHTML= myJSON;
+            })
+      }
+      function get_actors()
+      {
+        fetch('/actors',
+              {
+                method: "GET",
+                headers:
+                {
+                  'Authorization': Token,
+                  'Content-Type': 'application/json'
+                }
+              }
+        )
+        .then(response=>response.json())
+        .then( jsonResponse=>{
+              console.log(jsonResponse);
+
+              var myJSON = JSON.stringify(jsonResponse);
+
+              document.getElementById('display').innerHTML= myJSON;
+            })
+      }
+      function post_actor()
+      {
+        var name = document.getElementById('ActorName').value;
+        var gender =  document.getElementById('Gender').value;
+        var age=0;
+        age=document.getElementById('Age').value;
+        if (isNaN(age) || age<0)
+        {
+          age = 0;
+        }
+        var MACID=0;
+        MACID=document.getElementById('MACID').value;
+        if (isNaN(MACID) || MACID<0)
+        {
+          MACID = 0;
+        }
+        fetch('/actors',
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  'name': name,
+                  'age': age,
+                  'gender': gender,
+                  'movie_id':MACID
+                }),
+                headers:
+                {
+                  'Authorization': Token,
+                  'Content-Type': 'application/json'
+                }
+              }
+        )
+        .then(response=>response.json())
+        .then( jsonResponse=>{
+              console.log(jsonResponse);
+              var myJSON = JSON.stringify(jsonResponse);
+
+              document.getElementById('display').innerHTML= myJSON;
+            })
+      }
+      function patch_actor()
+      {
+        var ActorID=0;
+        ActorID=document.getElementById('ActorID').value;
+        if (isNaN(ActorID) || ActorID<0)
+        {
+          ActorID = 0;
+        }
+        var name = document.getElementById('ActorName').value;
+        var gender =  document.getElementById('Gender').value;
+        var age=0;
+        age=document.getElementById('Age').value;
+        if (isNaN(age) || age<0)
+        {
+          age = 0;
+        }
+        var MACID=0;
+        MACID=document.getElementById('MACID').value;
+        if (isNaN(MACID) || MACID<0)
+        {
+          MACID = 0;
+        }
+        fetch('/actors/'+ActorID,
+              {
+                method: "PATCH",
+                body: JSON.stringify({
+                  'name': name,
+                  'age': age,
+                  'gender': gender,
+                  'movie_id':MACID
+                }),
+                headers:
+                {
+                  'Authorization': Token,
+                  'Content-Type': 'application/json'
+                }
+              }
+        )
+        .then(response=>response.json())
+        .then( jsonResponse=>{
+              console.log(jsonResponse);
+              var myJSON = JSON.stringify(jsonResponse);
+
+              document.getElementById('display').innerHTML= myJSON;
+            })
+      }
+      function delete_actor()
+      {
+        var ActorID=0;
+        ActorID=document.getElementById('ActorID').value;
+        if (isNaN(ActorID) || ActorID<0)
+        {
+          ActorID = 0;
+        }
+        fetch('/actors/'+ActorID,
+              {
+                method: "DELETE",
+                headers:
+                {
+                  'Authorization': Token,
+                  'Content-Type': 'application/json'
+                }
+              }
+        )
+        .then(response=>response.json())
+        .then( jsonResponse=>{
+              console.log(jsonResponse);
+              var myJSON = JSON.stringify(jsonResponse);
+
+              document.getElementById('display').innerHTML= myJSON;
+            })
+      }
+    </script>
+<div>
+    <body class="container">
+
+        <h1 class="title">Welcome to Casting Agency</h1>
+        <h2>Login here</h2>
+        <button class="login-button" id="Director" onclick="loginDirector();">Log in Director</button>
+        <button class="login-button" id="Producer" onclick="loginProducer();">Log in Producer</button>
+        <button class="login-button" id="Assistant" onclick="loginAssistant();">Log in Assistant</button>
+
+        <h2>Add the movie and / or actor details</h2>
+
+  <label for="MovieName">Movie name:   </label><br>
+  <input type="text" id="MovieName" name="MovieName">
+  <br><br>
+
+    <label for="ReleaseDate">Release Date YYYY-MM-DD HH:MM:SS</label><br>
+  <input type="text" id="ReleaseDate" name="ReleaseDate">
+  <br><br>
+
+  <label for="MACID">Movie ID:</label><br>
+  <input type="text" id="MACID" name="MACID"><br><br>
+
+
+<label for="ActorID">Actor ID:</label><br>
+<input type="text" id="ActorID" name="ActorID"><br><br>
+  <label for="ActorName">Actor name:</label><br>
+  <input type="text" id="ActorName" name="ActorName" ><br><br>
+
+  <label for="Age">Age:</label><br>
+  <input type="text" id="Age" name="Age" ><br><br>
+
+  <label for="Gender">Gender:</label><br>
+  <input type="text" id="Gender" name="Gender" ><br><br>
+  <h2>Finally Go to End Point below.</h2>
+  <button class="API-button" id="get_movies" onclick="get_movies();">get_movies</button>
+  <button class="API-button" id="post_movie" onclick="post_movie();">post_movie</button>
+  <button class="API-button" id="delete_movie" onclick="delete_movie();">delete_movie</button>
+  <button class="API-button" id="patch_movie" onclick="patch_movie();">patch_movie</button>
+  <button class="API-button" id="get_actors" onclick="get_actors();">get_actors</button>
+  <button class="API-button" id="post_actor" onclick="post_actor();">post_actor</button>
+  <button class="API-button" id="patch_actor" onclick="patch_actor();">patch_actor</button>
+  <button class="API-button" id="delete_actor" onclick="delete_actor();">delete_actor</button>
+    </body>
+</div>
+<div>
+  <br>
+  <label for="display">Result:</label><br>
+  <textarea style="rows:10;column:50;font-size: 10pt; height: 400px; width:500px;margin-top: 2.5em; margin-left: 2.5em;padding: 0 7em 2em 0;border-width: 2px; border-color: black; border-style:solid;" type="textarea" name="display" id="display"> </textarea>
+
+</div>
+
+
+</html>

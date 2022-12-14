@@ -1,0 +1,45 @@
+html{
+  /*  background: url("potw1631a.jpg");
+    background-size: contain;
+    height: 1000px;
+    background-origin: border-box;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;*/
+}
+
+.container {
+    position: absolute;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+    top: 65%;
+    width: 100%;
+}
+
+h1 {
+    color: black;
+    font-size: 60px;
+    opacity: 100%;
+}
+.container {
+    position: absolute;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+    top: 65%;
+    width: 100%;
+}
+h2 {
+    color: black;
+    font-size: 40px;
+    opacity: 100%;
+}
+
+.login-button {
+    /*border: none;
+    outline: none;*/
+    font-size: 30px;
+    border-radius: 4px;
+    cursor: pointer;
+}
